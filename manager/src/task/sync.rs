@@ -5,6 +5,7 @@ use crate::config::Config;
 use crate::upload::file_list_cache::FileListCache;
 use crate::upload::s3::S3Target;
 use crate::upload::webdav::WebdavTarget;
+use crate::upload::gitee::GiteeTarget;
 use crate::upload::UploadTarget;
 use crate::web::log::Console;
 
@@ -14,6 +15,7 @@ pub fn task_upload(apppath: &AppPath, config: &Config, console: &Console) -> u8 
     runtime.block_on(async move {
         let webdav_config = config.webdav.clone();
         let s3_config = config.s3.clone();
+        let gitee_config = config.gitee.clone();
     
         // 先上传webdav
         if webdav_config.enabled {
@@ -30,6 +32,16 @@ pub fn task_upload(apppath: &AppPath, config: &Config, console: &Console) -> u8 
             let target = FileListCache::new(S3Target::new(s3_config).await);
 
             if let Err(err) = upload("s3", target, &apppath, console).await {
+                console.log_error(err);
+                return 1;
+            }
+        }
+
+        // 最后上传gitee
+        if gitee_config.enabled {
+            let target = FileListCache::new(GiteeTarget::new(gitee_config).await);
+
+            if let Err(err) = upload("gitee", target, &apppath, console).await {
                 console.log_error(err);
                 return 1;
             }

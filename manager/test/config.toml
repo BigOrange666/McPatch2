@@ -36,3 +36,11 @@ enabled = false
 host = ""
 username = ""
 password = ""
+
+[gitee]
+enabled = false
+username = ""
+token = ""
+repo = ""
+branch = "master"
+path = "gtnhtest"

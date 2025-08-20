@@ -36,8 +36,15 @@ async fn respond_file(mut path: &str, state: &WebState) -> Response {
     #[cfg(feature = "bundle-webpage")]
     return respond_from_inner(path, state).await;
 
+    // 如果没有启用bundle-webpage功能且webui-mode为false，返回404
     #[allow(unreachable_code)]
-    { panic!("the webpdage folder does not exist: {}", state.apppath.web_dir.to_str().unwrap()); }
+    {
+        if !state.config.core.webui_mode {
+            return Response::builder().status(404).body(Body::empty()).unwrap();
+        } else {
+            panic!("the webpdage folder does not exist: {}", state.apppath.web_dir.to_str().unwrap());
+        }
+    }
 }
 
 /// 从可执行文件内部响应页面文件请求

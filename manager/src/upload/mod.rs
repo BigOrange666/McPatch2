@@ -1,5 +1,6 @@
 pub mod s3;
 pub mod webdav;
+pub mod gitee;
 pub mod file_list_cache;
 
 use std::future::Future;

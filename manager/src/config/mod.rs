@@ -7,6 +7,7 @@ use crate::config::core_config::CoreConfig;
 use crate::config::s3_config::S3Config;
 use crate::config::web_config::WebConfig;
 use crate::config::webdav_config::WebdavConfig;
+use crate::config::gitee_config::GiteeConfig;
 
 pub mod core_config;
 pub mod web_config;
@@ -14,6 +15,7 @@ pub mod auth_config;
 pub mod builtin_server_config;
 pub mod s3_config;
 pub mod webdav_config;
+pub mod gitee_config;
 
 /// 全局配置
 #[derive(Serialize, Deserialize, Clone, Default)]
@@ -33,6 +35,9 @@ pub struct Config {
 
     /// webdav上传相关配置项
     pub webdav: WebdavConfig,
+
+    /// gitee上传相关配置项
+    pub gitee: GiteeConfig,
 }
 
 impl Config {
