@@ -17,8 +17,8 @@ pub struct GiteeTarget {
 impl GiteeTarget {
     pub async fn new(config: GiteeConfig) -> Self {
         let client = Client::builder()
-            .connect_timeout(Duration::from_millis(10000))
-            .read_timeout(Duration::from_millis(10000))
+            .connect_timeout(Duration::from_millis(30000))  // 30秒连接超时
+            .read_timeout(Duration::from_millis(60000))     // 60秒读取超时
             .user_agent("mcpatch-gitee-uploader/1.0")
             .build()
             .unwrap();
