@@ -105,11 +105,14 @@ impl TargetInfo {
             false => ("", None),
         };
 
+        // 文件名的目标标签，可通过 MP_FILE_NAME 自定义（例如 server-x86_64-pc-windows-msvc）
+        let display_name = std::env::var("MP_FILE_NAME").unwrap_or(rustc_target.clone());
+
         let symbols_name = symbols_suffix.map(|e| format!("{}{e}", crate_name.replace("-", "_")));
-        let symbols_name_versioned = symbols_suffix.map(|e| format!("{production_name}-{version_label}-{rustc_target}{e}"));
+        let symbols_name_versioned = symbols_suffix.map(|e| format!("{production_name}-{version_label}-{display_name}{e}"));
 
         let artifact_name = format!("{crate_name}{exe_suffix}");
-        let artifact_name_versioned = format!("{production_name}-{version_label}-{rustc_target}{exe_suffix}");
+        let artifact_name_versioned = format!("{production_name}-{version_label}-{display_name}{exe_suffix}");
 
         let artifact_path = profile_path.join(&artifact_name);
         let symbols_path = symbols_name.as_ref().map(|e| profile_path.join(e));

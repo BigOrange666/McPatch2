@@ -21,10 +21,13 @@ jobs:
         include:
           - os: windows-latest
             rustc-target: x86_64-pc-windows-msvc
+            file-name: server-x86_64-pc-windows-msvc
           # - os: ubuntu-latest
           #   rustc-target: x86_64-unknown-linux-gnu
+          #   file-name: server-x86_64-unknown-linux-gnu
           - os: ubuntu-latest
             rustc-target: x86_64-unknown-linux-musl
+            file-name: server-x86_64-unknown-linux-musl
     runs-on: ${{ matrix.os }}
     env:
       rust-version: '1.83'
@@ -59,6 +62,7 @@ jobs:
       - name: Cargo build
         env:
           MP_RUSTC_TARGET: ${{ matrix.rustc-target }}
+          MP_FILE_NAME: ${{ matrix.file-name }}
         run: |-
           rustup update ${{ env.rust-version }} && rustup default ${{ env.rust-version }}
           rustup target add ${{ matrix.rustc-target }}
